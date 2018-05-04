@@ -1,7 +1,7 @@
 if(!require("pacman"))install.packages("pacman")
 pacman::p_load("here", "tidyverse", "pwr")
-source(here("load.R"))
-source(here("retrodesign.R"))
+source(here("scripts", "load.R"))
+source(here("scripts", "retrodesign.R"))
 
 calc_power <- function(df, d){
   df %>% pull("N") %>%
@@ -12,7 +12,7 @@ calc_power <- function(df, d){
 df <- mutate(df, power = map(files, calc_power, d = .2))
 
 df_unnest <- unnest(df)
-df_unnest() %>% ggplot(aes(time, power)) +
+df_unnest %>% ggplot(aes(time, power)) +
   geom_violin() +
   facet_wrap(~event, ncol = 2) +
   theme_minimal()
@@ -30,6 +30,6 @@ df_unnest %>% ggplot(aes(time, typeM)) +
 df_unnest %>% mutate(d = abs(d)) %>% 
   ggplot(aes(d, typeM, color = event)) + geom_point() + theme_minimal()
 
-df %>% group_by(event, time) %>% summarise(typeM = mean(typeM)) %>% 
+df_unnest %>% group_by(event, time) %>% summarise(typeM = mean(typeM)) %>% 
   pander::pander()
 
