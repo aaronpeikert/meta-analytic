@@ -1,0 +1,59 @@
+---
+title: "Beyond Power in Meta-Analysis"
+author: "Aaron Peikert"
+date: "5/4/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+if(!require("pacman"))install.packages("pacman")
+pacman::p_load("here", "tidyverse", "pwr")
+here("scripts") %>%
+  list.files() %>%
+  here("scripts", .) %>%
+  walk(knitr::read_chunk)
+```
+
+```{r load, results='hide', warning=FALSE, message=FALSE}
+```
+
+```{r beyond-power-calculations}
+```
+
+```{r save-errors}
+```
+
+```{r calc-power}
+```
+
+```{r unnest}
+```
+
+```{r calc-errors}
+```
+
+```{r plot-power}
+df_unnest %>% ggplot(aes(time, power)) +
+  geom_violin() +
+  facet_wrap(~event, ncol = 2) +
+  theme_minimal()
+```
+
+```{r plot-typem}
+df_unnest %>% ggplot(aes(time, typeM)) +
+  geom_violin() +
+  facet_wrap(~event) +
+  theme_minimal()
+```
+
+```{r plot-typem-d}
+df_unnest %>% mutate(d = abs(d)) %>% 
+  ggplot(aes(d, typeM, color = event)) + geom_point() + theme_minimal()
+```
+
+```{r table-typem}
+df_unnest %>% group_by(event, time) %>% summarise(typeM = mean(typeM)) %>% 
+  pander::pander()
+```
+
