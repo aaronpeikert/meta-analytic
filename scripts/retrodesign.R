@@ -2,6 +2,7 @@ if(!require("pacman"))install.packages("pacman")
 pacman::p_load("here", "tidyverse")
 # Code from Gelman, A., & Carlin, J. (2014). Beyond Power Calculations: Assessing Type S (Sign) and Type M (Magnitude) Errors. Perspectives on Psychological Science, 9(6), 641–651. https://doi.org/10.1177/1745691614551642
 
+#----beyond-power-calculations----
 retrodesign <- function(A, s, alpha=.05, df=Inf, n.sims=10000){
   z <- qt(1-alpha/2, df)
   p.hi <- 1 - pt(z-A/s, df)
@@ -34,6 +35,7 @@ for (i in 1:n){
 
 ## own code, not from paper
 
+#----save-errors----
 errors <- tibble(power, typeS, typeM = exaggeration)
 
 which_near <- function(what, where){
