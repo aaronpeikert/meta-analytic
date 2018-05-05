@@ -8,7 +8,7 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 if(!require("pacman"))install.packages("pacman")
-pacman::p_load("here", "tidyverse", "pwr")
+pacman::p_load("here", "tidyverse", "digest", "pwr", "plotly")
 here("scripts") %>%
   list.files() %>%
   here("scripts", .) %>%
@@ -24,7 +24,7 @@ here("scripts") %>%
 ```{r save-errors}
 ```
 
-```{r calc-power}
+```{r calc-power-1}
 ```
 
 ```{r unnest}
@@ -56,4 +56,17 @@ df_unnest %>% mutate(d = abs(d)) %>%
 df_unnest %>% group_by(event, time) %>% summarise(typeM = mean(typeM)) %>% 
   pander::pander()
 ```
+
+```{r calc-power-2}
+```
+
+```{r}
+animated_n_typeM <- df_ds %>% ggplot(aes(event, typeM, color = event)) +
+  geom_jitter(aes(frame = d_assumed, ids = id), width = .1, height = 0) +
+  theme_minimal()
+animated_n_typeM %>% ggplotly() %>% layout(yaxis = list(type = "log", range = c(0, 1)))
+```
+
+
+
 
